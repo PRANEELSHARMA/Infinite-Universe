@@ -1,0 +1,128 @@
+/* Created by PRANEEL SHARMA 
+transmitter program link:https://github.com/PRANEELSHARMA/Infinite-Universe/blob/master/HCSR-04%20Ultrasonic%20sensor%20and%20433mhz%20transmitter%20program
+*/
+
+
+//Receiver program
+
+
+#include <VirtualWire.h>
+#include <VirtualWire_Config.h>
+
+
+
+byte message[VW_MAX_MESSAGE_LEN]; // a buffer to store the incoming messages
+
+byte messageLength = VW_MAX_MESSAGE_LEN; // the size of the message
+
+
+
+
+char cad[100];
+
+int pos = 0;
+
+void setup()
+
+{
+
+Serial.begin(9600); 
+
+Serial.println("Project ARS");
+Serial.println("Systems check:");
+
+Serial.println("Booting");
+
+delay(1000);
+
+pos=0;
+
+
+Serial.print("Loading code");
+
+delay(1000);
+
+pos=0;
+
+
+
+Serial.print(".");
+
+delay(900);
+
+Serial.print(".");
+
+delay(900);
+
+Serial.println(".");
+
+delay(900);
+
+pos=0;
+
+delay(900);
+
+
+
+Serial.println("Device is ready");
+
+
+vw_setup(2000); // Bits per sec
+
+vw_rx_start(); // Start the receiver
+
+}
+
+void loop()
+
+{
+
+byte buf[VW_MAX_MESSAGE_LEN];
+
+byte buflen = VW_MAX_MESSAGE_LEN;
+
+int i;
+
+int k= VW_MAX_MESSAGE_LEN;
+
+if (vw_get_message(buf, &buflen)) // Non-blocking
+
+{
+
+Serial.print("Received: ");
+
+for (int i = 0; i < buflen; i++)
+
+{
+
+Serial.write(buf[i]);
+
+
+}
+Serial.print("cm");
+Serial.println();
+
+}
+
+if( vw_get_message(buf, &buflen) )
+
+{
+
+if(pos < 4)
+
+Serial.print(pos);
+
+else
+
+{
+
+pos=0;
+
+
+
+}
+
+
+}
+
+}
