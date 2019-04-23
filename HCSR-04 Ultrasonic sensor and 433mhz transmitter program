@@ -1,0 +1,58 @@
+/* Created by Praneel 
+Project ARS(Ardu Rovo Sat)
+Video link Youtube: https://youtu.be/1S48LRTbi_c
+*/
+
+
+
+//HCSR-04 ultra sonic sensor 433mhz transmitter program
+#include <Ultrasonic.h>
+
+#include <VirtualWire.h>
+#include <VirtualWire_Config.h>
+
+
+
+Ultrasonic ultrasonic(9,8); // (Trig PIN,Echo PIN)
+
+int d;// Initialize the variable distance
+
+void setup()
+
+{
+
+vw_setup(2000); // Bits per sec
+Serial.begin(9600);
+
+}
+
+void loop()
+
+{
+
+char b[10]; //declaring character array
+
+String str; //declaring string
+
+d=ultrasonic.Ranging(CM);//cm or inc
+Serial.println(d);
+
+str=String(d); //converting integer into a string
+
+str.toCharArray(b,10); //passing the value of the string to the character array
+
+send(b);
+
+delay(1000);
+
+}
+
+void send (char *message)             //transmitter function declaration
+
+{
+
+vw_send((uint8_t *)message, strlen(message));
+
+vw_wait_tx(); // Wait until the whole message is gone
+
+}
